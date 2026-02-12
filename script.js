@@ -66,6 +66,9 @@ function onCountdownFinish() {
   newYearMessage.classList.remove('hidden');
   newYearMessage.classList.add('sparkle');
 
+  // Tạo hiệu ứng chữ bay
+  createFloatingTexts();
+
   // Bật canvas pháo hoa
   startFireworks();
 
@@ -88,6 +91,36 @@ function tryPlayAudio(filename) {
   });
 }
 
+/* ------------------- Hiệu ứng chữ bay ------------------- */
+function createFloatingTexts() {
+  const texts = ['🎆', '✨', '🎉', '🎊', '🧧', 'Cái Lồm', 'Con cặc'];
+  const container = document.getElementById('floatingTextContainer');
+  
+  // Tạo nhiều chữ bay lên
+  for (let i = 0; i < 12; i++) {
+    setTimeout(() => {
+      const text = texts[Math.floor(Math.random() * texts.length)];
+      const span = document.createElement('span');
+      span.className = 'floating-text';
+      span.textContent = text;
+      
+      // Vị trí ngẫu nhiên
+      const randomX = Math.random() * window.innerWidth;
+      const randomY = Math.random() * window.innerHeight;
+      const offsetX = (Math.random() - 0.5) * 200;
+      
+      span.style.left = randomX + 'px';
+      span.style.top = randomY + 'px';
+      span.style.setProperty('--offsetX', offsetX + 'px');
+      
+      container.appendChild(span);
+      
+      // Xóa element sau khi animation xong
+      setTimeout(() => span.remove(), 4000);
+    }, i * 150);
+  }
+}
+
 /* ------------------- FIREWORKS bằng Canvas API ------------------- */
 /* Hệ thống pháo hoa đơn giản nhưng hiệu quả:
    - Tạo các "bloom" (vị trí nổ) và "particles" (mảnh màu bắn ra)
@@ -103,26 +136,26 @@ function startFireworks() {
   const ctx = canvas.getContext('2d');
   let particles = [];
   let blooms = [];
-  const maxParticles = 900; // giới hạn tổng hạt
+  const maxParticles = 2000; // giới hạn tổng hạt - tăng lên cho nhiều hiệu ứng hơn
   const gravity = 0.02;
   const friction = 0.998;
 
   // Resize canvas khi thay đổi kích thước
   window.addEventListener('resize', resizeCanvas);
 
-  // Tạo nổ ban đầu và tiếp tục nổ theo chu kỳ
+  // Tạo nổ ban đầu và tiếp tục nổ theo chu kỳ - NỔ NHIỀU HƠN
   const burstTimer = setInterval(() => {
-    // Tạo vài nổ ở vị trí ngẫu nhiên phía trên màn hình
-    for (let i = 0; i < 3; i++) {
+    // Tạo nhiều nổ ở vị trí ngẫu nhiên phía trên màn hình
+    for (let i = 0; i < 5; i++) {
       createBurst(
         Math.random() * canvas.width * 0.9 + canvas.width * 0.05,
         Math.random() * canvas.height * 0.45 + canvas.height * 0.05,
-        20 + Math.floor(Math.random() * 40)
+        40 + Math.floor(Math.random() * 80)
       );
     }
-  }, 900);
+  }, 600);
 
-  // Tạo liên tiếp trong 9 giây, sau đó dần giảm tần suất
+  // Tạo liên tiếp trong 15 giây, sau đó dần giảm tần suất
   setTimeout(() => {
     clearInterval(burstTimer);
     // còn nổ thêm vài lần phân tán
@@ -130,20 +163,20 @@ function startFireworks() {
       createBurst(
         Math.random() * canvas.width * 0.9 + canvas.width * 0.05,
         Math.random() * canvas.height * 0.45 + canvas.height * 0.05,
-        10 + Math.floor(Math.random() * 30)
+        30 + Math.floor(Math.random() * 60)
       );
-    }, 1200);
-    // dừng sau 12s
+    }, 800);
+    // dừng sau 20s
     setTimeout(() => {
       clearInterval(tail);
-    }, 12000);
-  }, 9000);
+    }, 20000);
+  }, 15000);
 
   // Phong cách: xóa dần nội dung bằng fillRect với alpha để tạo vệt mờ
   let rafId;
   function animate() {
-    // mờ dần (tao vệt)
-    ctx.fillStyle = 'rgba(7,4,0,0.25)';
+    // mờ dần (tao vệt) - với độ trong suốt ít hơn để hiệu ứng kéo dài hơn
+    ctx.fillStyle = 'rgba(7,4,0,0.15)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     // vẽ particles
@@ -205,39 +238,39 @@ function startFireworks() {
     ctx && ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  // Tạo burst: tạo nhiều particles tỏa tròn
+  // Tạo burst: tạo nhiều particles tỏa tròn - CẢI THIỆN
   function createBurst(x, y, count) {
-    // Bloom chính (flash)
+    // Bloom chính (flash) - sáng hơn
     blooms.push({
       x,
       y,
       r: 255,
-      g: 200,
-      b: Math.floor(20 + Math.random() * 200),
-      life: 18,
-      maxLife: 18
+      g: 220,
+      b: Math.floor(50 + Math.random() * 200),
+      life: 25,
+      maxLife: 25
     });
 
     const hue = Math.random() * 360;
     for (let i = 0; i < count; i++) {
       if (particles.length >= maxParticles) break;
       const angle = Math.random() * Math.PI * 2;
-      const speed = (Math.random() * 3.2) + 1.2;
+      const speed = (Math.random() * 4.5) + 1.5; // tăng tốc độ
       const vx = Math.cos(angle) * speed;
       const vy = Math.sin(angle) * speed;
-      const color = hsvToRgb(hue + (Math.random() * 40 - 20), 0.9, 1);
+      const color = hsvToRgb(hue + (Math.random() * 60 - 30), 0.95, 1); // màu rực rỡ hơn
 
       particles.push({
         x: x,
         y: y,
         vx: vx,
-        vy: vy * 0.9,
+        vy: vy * 0.85,
         r: color[0],
         g: color[1],
         b: color[2],
-        alpha: 0.98,
-        decay: 0.008 + Math.random() * 0.02,
-        size: 2 + Math.random() * 3
+        alpha: 0.99,
+        decay: 0.006 + Math.random() * 0.015, // biến mất chậm hơn
+        size: 2.5 + Math.random() * 4 // hạt lớn hơn
       });
     }
   }
@@ -286,8 +319,8 @@ function startFireworks() {
     canvas.style.display = 'none';
   }
 
-  // (Tùy) dừng sau 25 giây để giải phóng resource
+  // (Tùy) dừng sau 40 giây để giải phóng resource
   setTimeout(() => {
     stop();
-  }, 25000);
+  }, 40000);
 }

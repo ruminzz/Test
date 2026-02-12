@@ -155,6 +155,42 @@ body {
   100% { transform: rotate(-6deg) translateY(0); }
 }
 
+/* Hiệu ứng chữ bay - floating text */
+.floating-text-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.floating-text {
+  position: absolute;
+  font-size: 32px;
+  font-weight: bold;
+  color: #ffdd2f;
+  text-shadow: 0 0 10px rgba(255, 221, 47, 0.8), 0 0 20px rgba(255, 0, 0, 0.6);
+  opacity: 1;
+  animation: floatUp 4s ease-out forwards;
+  white-space: nowrap;
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0) translateX(0) scale(1);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-300px) translateX(var(--offsetX, 0px)) scale(1.2);
+  }
+}
+
 /* Responsive — nhỏ màn hình */
 @media (max-width: 520px) {
   .num { font-size: 34px; }
@@ -163,4 +199,5 @@ body {
   .new-year { font-size: 36px; }
   .lantern { width: 64px; height: 110px; }
   .flower { width: 70px; height: 70px; left: 90px; right: 90px; }
+  .floating-text { font-size: 24px; }
 }

@@ -8,7 +8,7 @@
 
 /* ------------------- Cấu hình mốc thời gian ------------------- */
 /* Date: Tháng (monthIndex) bắt đầu từ 0 -> 1 = February */
-const targetDate = new Date(Date.now() + 3000); // 3 giây nữa nổ
+const targetDate = new Date(2026, 1, 17, 0, 0, 0);
 
 /* ------------------- DOM ------------------- */
 const daysEl = document.getElementById('days');

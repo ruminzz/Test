@@ -93,7 +93,7 @@ function tryPlayAudio(filename) {
 
 /* ------------------- Hiệu ứng chữ bay ------------------- */
 function createFloatingTexts() {
-  const texts = ['🎆', '✨', '🎉', '🎊', '🧧', 'Cái Lồm', 'Con cặc'];
+  const texts = ['🎆Con cặc', '✨Cái Lồm', '🎉Cái Lồm', '🎊', '🧧Con cặc', 'Cái Lồm', 'Con cặc'];
   const container = document.getElementById('floatingTextContainer');
   
   // Tạo nhiều chữ bay lên

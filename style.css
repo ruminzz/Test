@@ -1,0 +1,166 @@
+/* ========= style.css =========
+   Giao diện màu Tết: nền đỏ rực, chữ vàng.
+   Các chú thích bằng tiếng Việt để bạn dễ chỉnh sửa.
+*/
+
+/* Reset cơ bản */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* Body: nền đỏ gradient, chữ vàng */
+html,body {
+  height: 100%;
+}
+body {
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: linear-gradient(180deg, #b00000 0%, #ff2a2a 100%);
+  color: #ffd84d; /* vàng Tết */
+  overflow: hidden; /* ẩn thanh cuộn khi pháo hoa full màn hình */
+}
+
+/* Canvas pháo hoa phủ toàn màn hình, đặt sau body nhưng trên layout */
+#fireworksCanvas {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Không chặn tương tác */
+  z-index: 100; /* nằm trên cùng khi hoạt động */
+  display: none; /* ẩn mặc định, bật khi nổ */
+}
+
+/* Container chính căn giữa */
+.stage {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  padding: 30px;
+  text-align: center;
+}
+
+/* Các trang trí (lồng đèn, hoa) */
+.decors {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 9;
+}
+
+/* Lồng đèn 2 bên */
+.lantern {
+  width: 90px;
+  height: 150px;
+  opacity: 0.95;
+  transform-origin: center;
+}
+.lantern-left { position: absolute; left: 20px; transform: translateY(10px) rotate(-6deg); animation: floaty 3.6s ease-in-out infinite; }
+.lantern-right { position: absolute; right: 20px; transform: translateY(10px) rotate(6deg); animation: floaty 3.2s ease-in-out infinite; }
+
+/* Hoa (dùng CSS để tạo hình hoa mai/đào đơn giản) */
+.flower {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 30%, #fff3a2 0%, #ffdd2f 20%, #ffb2b2 60%, #ff5c7a 100%);
+  box-shadow: 0 0 20px rgba(255,215,0,0.15);
+  opacity: 0.95;
+}
+.flower-left { left: 120px; top: 0; transform: rotate(-15deg) scale(0.9); animation: sway 5s ease-in-out infinite; }
+.flower-right { right: 120px; top: 0; transform: rotate(10deg) scale(1); animation: sway 4.6s ease-in-out infinite; }
+
+/* Title */
+.title {
+  margin-top: 20px;
+  font-size: 34px;
+  letter-spacing: 1px;
+  text-shadow: 0 0 12px rgba(255,215,0,0.9), 0 8px 18px rgba(0,0,0,0.25);
+}
+
+/* Countdown box */
+.countdown {
+  display: flex;
+  gap: 18px;
+  margin-top: 28px;
+  align-items: center;
+  justify-content: center;
+  z-index: 12;
+}
+
+.time-card {
+  min-width: 110px;
+  padding: 18px 14px;
+  border-radius: 14px;
+  border: 2px solid rgba(255,215,0,0.9);
+  background: rgba(0,0,0,0.08);
+  box-shadow: 0 4px 18px rgba(0,0,0,0.25), 0 0 22px rgba(255,215,0,0.06) inset;
+  transition: transform 0.18s ease;
+}
+.time-card:hover { transform: translateY(-6px); }
+
+.num {
+  font-size: 48px;
+  font-weight: 700;
+  color: #fff7c6;
+  text-align: center;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.35);
+}
+.label {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #ffeaa7;
+  text-align: center;
+}
+
+/* Thông điệp Năm Mới */
+.new-year {
+  margin-top: 48px;
+  font-size: 56px;
+  letter-spacing: 2px;
+  color: #fffacd;
+  z-index: 12;
+  text-shadow:
+    0 0 6px rgba(255,230,120,0.9),
+    0 0 18px rgba(255,140,0,0.6);
+}
+
+/* Ẩn class */
+.hidden { display: none; }
+
+/* Hiệu ứng lấp lánh cho chữ Năm Mới */
+@keyframes sparkle {
+  0% { text-shadow: 0 0 6px rgba(255,240,140,0.6); }
+  50% { text-shadow: 0 0 30px rgba(255,240,140,1), 0 0 50px rgba(255,200,50,0.6); transform: scale(1.03); }
+  100% { text-shadow: 0 0 6px rgba(255,240,140,0.6); }
+}
+.new-year.sparkle {
+  animation: sparkle 1s ease-in-out infinite;
+}
+
+/* Hoạt hình lồng đèn, hoa */
+@keyframes floaty {
+  0% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(8px) rotate(3deg); }
+  100% { transform: translateY(0) rotate(-3deg); }
+}
+@keyframes sway {
+  0% { transform: rotate(-6deg) translateY(0); }
+  50% { transform: rotate(6deg) translateY(6px); }
+  100% { transform: rotate(-6deg) translateY(0); }
+}
+
+/* Responsive — nhỏ màn hình */
+@media (max-width: 520px) {
+  .num { font-size: 34px; }
+  .time-card { min-width: 78px; padding: 12px 8px; border-radius: 10px; }
+  .title { font-size: 24px; }
+  .new-year { font-size: 36px; }
+  .lantern { width: 64px; height: 110px; }
+  .flower { width: 70px; height: 70px; left: 90px; right: 90px; }
+}

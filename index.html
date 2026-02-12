@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Đếm Ngược Tết Bính Ngọ 2026</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Canvas cho hiệu ứng pháo hoa -->
+  <canvas id="fireworksCanvas"></canvas>
+
+  <div class="stage">
+    <!-- Trang trí SVG: lồng đèn + hoa mai/đào -->
+    <div class="decors">
+      <!-- Lồng đèn (SVG inline để dễ chỉnh màu/kích thước) -->
+      <svg class="lantern lantern-left" viewBox="0 0 120 200" aria-hidden="true">
+        <g transform="translate(10,10)">
+          <ellipse cx="50" cy="80" rx="46" ry="60" fill="#ffb300" stroke="#c07b00" stroke-width="4"/>
+          <rect x="44" y="6" width="12" height="25" rx="3" fill="#c07b00"/>
+          <line x1="50" y1="140" x2="50" y2="170" stroke="#c07b00" stroke-width="3"/>
+          <rect x="20" y="40" width="60" height="6" fill="#c07b00" opacity="0.1"/>
+          <g transform="translate(0,0)" fill="#c07b00" opacity="0.8">
+            <path d="M15 60 q20 -20 70 0" />
+            <path d="M15 80 q20 -20 70 0" />
+            <path d="M15 100 q20 -20 70 0" />
+          </g>
+        </g>
+      </svg>
+
+      <!-- Hoa mai đơn giản bằng CSS (div) -->
+      <div class="flower flower-left" aria-hidden="true"></div>
+
+      <!-- Lồng đèn phải -->
+      <svg class="lantern lantern-right" viewBox="0 0 120 200" aria-hidden="true">
+        <g transform="translate(10,10)">
+          <ellipse cx="50" cy="80" rx="46" ry="60" fill="#ffb300" stroke="#c07b00" stroke-width="4"/>
+          <rect x="44" y="6" width="12" height="25" rx="3" fill="#c07b00"/>
+          <line x1="50" y1="140" x2="50" y2="170" stroke="#c07b00" stroke-width="3"/>
+          <rect x="20" y="40" width="60" height="6" fill="#c07b00" opacity="0.1"/>
+          <g transform="translate(0,0)" fill="#c07b00" opacity="0.8">
+            <path d="M15 60 q20 -20 70 0" />
+            <path d="M15 80 q20 -20 70 0" />
+            <path d="M15 100 q20 -20 70 0" />
+          </g>
+        </g>
+      </svg>
+
+      <!-- Hoa phải -->
+      <div class="flower flower-right" aria-hidden="true"></div>
+    </div>
+
+    <!-- Tiêu đề -->
+    <h1 class="title">Đếm Ngược Tết Bính Ngọ 2026</h1>
+
+    <!-- Bộ đếm ngược -->
+    <div id="countdown" class="countdown" role="timer" aria-live="polite">
+      <div class="time-card">
+        <div class="num" id="days">0</div>
+        <div class="label">Ngày</div>
+      </div>
+      <div class="time-card">
+        <div class="num" id="hours">0</div>
+        <div class="label">Giờ</div>
+      </div>
+      <div class="time-card">
+        <div class="num" id="minutes">0</div>
+        <div class="label">Phút</div>
+      </div>
+      <div class="time-card">
+        <div class="num" id="seconds">0</div>
+        <div class="label">Giây</div>
+      </div>
+    </div>
+
+    <!-- Thông điệp Năm Mới (ẩn trước) -->
+    <h2 id="newYearMessage" class="new-year hidden">
+      ✨ Chúc Mừng Năm Mới 2026 ✨
+    </h2>
+
+    <!-- Ghi chú âm thanh (nếu bạn thêm file .mp3 vào thư mục, script sẽ thử chơi nó) -->
+    <!-- Ví dụ: đặt file "firework.mp3" vào cùng thư mục, script sẽ chơi khi nổ pháo -->
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
